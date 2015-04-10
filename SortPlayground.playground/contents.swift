@@ -1,19 +1,40 @@
 import Foundation
 
 
+//: ## Compare Sorting Algorithms Visually
+func visualCompare(numbers: [Int]) {
+    var quickSortInPlaceNumbers = numbers
+    var heapSortNumbers = numbers
+    var insertionSortNumbers = numbers
+
+    //: Quick Sort in Place
+    var quickSortInPlaceSwaps = [(Int, Int)]()
+    sortAndAnimate("Quick Sort in place", &quickSortInPlaceNumbers, &quickSortInPlaceSwaps) { () -> () in
+        quickSortInPlace(&quickSortInPlaceNumbers, &quickSortInPlaceSwaps)
+    }
+
+    //: Heap Sort
+    var heapSortSwaps = [(Int, Int)]()
+    sortAndAnimate("Heap Sort", &heapSortNumbers, &heapSortSwaps, { () -> () in
+        heapSort(&heapSortNumbers, &heapSortSwaps)
+    })
+    
+    //: Insertion Sort
+    var insertionSortSwaps = [(Int, Int)]()
+    sortAndAnimate("Insertion Sort", &insertionSortNumbers, &insertionSortSwaps) { () -> () in
+        insertionSort(&insertionSortNumbers, &insertionSortSwaps)
+    }
+}
 
 
 //: ## Compare Sorting Algorithms
-
-func compare(arraySize: UInt32) {
-    let numbers = createRandomNumbersArray(arraySize)
-
+func compare(numbers: [Int]) {
     var mergeSortNumbers = numbers
     var quickSortNumbers = numbers
     var quickSortInPlaceNumbers = numbers
     var heapSortNumbers = numbers
     var insertionSortNumbers = numbers
-
+    
     //: Merge Sort
     let mergeSortRunningTime = TimePerformer().run { () -> () in
         mergeSort(&mergeSortNumbers)
@@ -38,9 +59,8 @@ func compare(arraySize: UInt32) {
     let insertionSortRunningTime = TimePerformer().run { () -> () in
         insertionSort(&insertionSortNumbers)
     }
-
+    
     println()
-    println("Array Size:           \(arraySize)")
     println("Merge Sort:           \(mergeSortRunningTime)")
     println("Quick Sort:           \(quickSortRunningTime)")
     println("Quick Sort In Place:  \(quickSortInPlaceRunningTime)")
@@ -50,9 +70,13 @@ func compare(arraySize: UInt32) {
     
 }
 
-compare(10)
-compare(100)
-compare(1000)
-compare(10000)
-//compare(100000)
- 
+let numbers = createRandomNumbersArray(10)
+visualCompare(numbers)
+compare(numbers)
+
+let moreNumbers = createRandomNumbersArray(100)
+compare(moreNumbers)
+
+let evenMoreNumbers = createRandomNumbersArray(1000)
+compare(evenMoreNumbers)
+

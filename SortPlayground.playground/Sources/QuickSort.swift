@@ -9,13 +9,13 @@ public func quickSort<T: Comparable>(inout data: [T]){
         var equal = [T]()
         var greater = [T]()
 
-        var pivot = data[1]
+        let pivot = data[1]
         for x in data{
-            if x < pivot{
+            if x < pivot {
                 less.append(x)
-            }else if x == pivot{
+            } else if x == pivot {
                 equal.append(x)
-            }else{
+            } else {
                 greater.append(x)
             }
         }
@@ -27,17 +27,22 @@ public func quickSort<T: Comparable>(inout data: [T]){
 }
 
 public func quickSortInPlace<T: Comparable>(inout data: [T]) {
-    quickSortInPlace(&data, 0, data.count-1)
+    var swaps = [(Int, Int)]()
+    quickSortInPlace(&data, 0, data.count-1, &swaps)
+}
+
+public func quickSortInPlace<T: Comparable>(inout data: [T], inout swaps: [(Int, Int)]) {
+    quickSortInPlace(&data, 0, data.count-1, &swaps)
 }
 // Quick sort in place
-private func quickSortInPlace<T: Comparable>(inout data: [T], start: Int, end: Int) {
+private func quickSortInPlace<T: Comparable>(inout data: [T], start: Int, end: Int, inout swaps: [(Int, Int)]) {
     
     if start >= end {
         return
     }
     
     if data.count > 1 {
-        var pivot = data[(start + end) / 2]
+        let pivot = data[(start + end) / 2]
         var left: Int = start
         var right: Int = end
         
@@ -50,20 +55,20 @@ private func quickSortInPlace<T: Comparable>(inout data: [T], start: Int, end: I
             }
             
             if left <= right {
-                
+                swaps += [(left, right)]
                 swap(&data, left, right)
                 left += 1
                 right -= 1
             }
         }
         
-        quickSortInPlace(&data, start, right)
-        quickSortInPlace(&data, left, end)
+        quickSortInPlace(&data, start, right, &swaps)
+        quickSortInPlace(&data, left, end, &swaps)
     }
 }
 
 private func swap<T>(inout data: [T], from: Int, to: Int) {
-    var tmp = data[from]
+    let tmp = data[from]
     data[from] = data[to]
     data[to] = tmp
 }

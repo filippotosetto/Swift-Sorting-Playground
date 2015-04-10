@@ -9,7 +9,7 @@ public func mergeSort<T: Comparable>(inout array: [T]){
     }
     
     // Split lists into equal sized sublists
-    var middle = array.count / 2
+    let middle = array.count / 2
     
     var left = [T]()
     var right = [T]()

@@ -8,14 +8,14 @@
 
 import Foundation
 
+let NANOS_PER_SEC:Double = 1000 * 1000 * 1000
+
 // Ref: http://stackoverflow.com/questions/24101718/swift-performance-sorting-arrays
 public class TimePerformer {
-    
-    let NANOS_PER_SEC:Double = 1000 * 1000 * 1000
+
     var timeStart:UInt64 = 0
     
-    public init() {
-    }
+    public init() {}
     
     public func run(sortingFunction: ()->()) -> Double {
         timeStart = mach_absolute_time()
@@ -50,30 +50,3 @@ public func createRandomNumbersArray(size: UInt32) -> [Int]{
     return numbers
 }
 
-
-extension Array {
-    func slice(args: Int...) -> Array {
-        var s = args[0]
-        var e = self.count - 1
-        if args.count > 1 { e = args[1] }
-        
-        if e < 0 {
-            e += self.count
-        }
-        
-        if s < 0 {
-            s += self.count
-        }
-        
-        let count = (s < e ? e-s : s-e)+1
-        let inc = s < e ? 1 : -1
-        var ret = Array()
-        
-        var idx = s
-        for var i=0;i<count;i++  {
-            ret.append(self[idx])
-            idx += inc
-        }
-        return ret
-    }
-}
